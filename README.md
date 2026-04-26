@@ -1,24 +1,11 @@
 # CapitalEdge Analytics Data Pipeline
 
-## Project Overview
-This project was developed for the CapitalEdge Analytics capstone project. It automates the extraction, transformation, and loading of financial stock data using Python.
+## 📌 Project Overview
+This project demonstrates an end-to-end data pipeline that automates the extraction, transformation, and orchestration of financial stock data using Python and Apache Airflow.
 
-## Objectives
-- Automate financial data collection from an API
-- Store raw data in JSON format
-- Transform raw JSON into structured tabular data
-- Implement incremental loading to avoid duplicate records
-- Execute the pipeline automatically through a main script
+---
 
-## Project Workflow
-1. Extract financial stock data from Alpha Vantage API
-2. Store raw data in the `data/raw/` folder
-3. Transform the JSON data into a cleaned pandas DataFrame
-4. Save processed data into `data/processed/stock_data.csv`
-5. Append only new records using incremental loading
-6. Run the full pipeline through `main.py`
-
-## Project Structure
+## 🗂️ Project Structure
 ```text
 capitaledge_pipeline/
 ├── data/
@@ -31,27 +18,106 @@ capitaledge_pipeline/
 ├── notebooks/
 │   ├── extract.ipynb
 │   └── transform.ipynb
+├── airflow_dag/
+│   └── capitaledge_pipeline_dag.py
+├── .env
+├── .gitignore
 ├── README.md
 └── requirements.txt
-Technologies Used
+
+
+
+## Technologies Used
 Python
 Pandas
-Requests
-Jupyter Notebook
+Apache Airflow
+WSL (Ubuntu)
+Azure Blob Storage (optional)
 Alpha Vantage API
-How to Run
+---
 
-Activate your virtual environment, then run: python scripts/main.py
-Key Features
+## 🎯 Objectives
+- Automate financial data collection from Alpha Vantage API  
+- Store raw data in JSON format  
+- Transform raw JSON into structured tabular data  
+- Implement incremental loading to avoid duplicate records  
+- Orchestrate the pipeline using Apache Airflow  
+
+---
+
+## 🔄 Pipeline Architecture
+
+```text
+Raw JSON → Extract → Transform → Processed CSV → (Azure Storage)
+                      ↑
+                 Airflow DAG
+
+## HOW TO RUN
+    1. Clone the repository
+      git clone https://github.com/waetsi/capitaledge_pipeline
+      cd capitaledge_pipeline
+
+    2. Install Dependencies
+    pip install -r requirements.txt
+
+    3. Set environment variables
+
+        Create a .env file: ALPHAVANTAGE_API_KEY=your_api_key_here
+        AZURE_STORAGE_CONNECTION_STRING=your_connection_string
+
+    4. Run pipeline manually
+        python scripts/main.py
+
+    5. Run with Airflow
+        airflow standalone
+
+    Then open: http://localhost:8080
+
+## Key Features
 Automated API extraction
-Raw data storage
-Data transformation and cleaning
-Incremental loading
-End-to-end pipeline execution
-Business Value
+Data cleaning and transformation
+Incremental data loading
+Airflow orchestration
+Error handling and debugging
+Optional Azure cloud storage
 
-This solution reduces manual effort, improves data consistency, minimizes duplication, and supports scalable financial data processing.
+## Output
 
-Author
+The pipeline generates a structured dataset:
+
+Cleaned stock data
+Calculated metrics
+Ready for analytics or visualization
+
+
+## Business Value
+
+This solution:
+
+Reduces manual data processing
+Improves data accuracy and consistency
+Enables scalable data workflows
+Demonstrates real-world data engineering practices
+
+
+## Challenges & Solutions
+Airflow setup in WSL → resolved with standalone mode
+Dependency issues → resolved using virtual environments
+File path errors → fixed using correct working directory
+API rate limits → managed with controlled request delays
+
+
+## Future Improvements
+Real-time data ingestion
+Integration with cloud databases
+Dashboard visualization (Power BI / Tableau)
+Scheduling and monitoring enhancements
+
+
+
+## Author
 
 WAETSI Anyanwu
+
+
+

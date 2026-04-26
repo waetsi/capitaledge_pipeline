@@ -1,25 +1,36 @@
 import requests
 import json
 import os
+import time
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 from datetime import datetime
 
-API_KEY = "YOUR_API_KEY"
-symbol = "AAPL"
 
-url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}"
+API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
 
-response = requests.get(url)
-data = response.json()
+symbols = ["AAPL", "MSFT"]
 
-if "Time Series (Daily)" in data:
-    os.makedirs("data/raw", exist_ok=True)
+os.makedirs("data/raw", exist_ok=True)
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    file_path = f"data/raw/{symbol}_{timestamp}.json"
+for symbol in symbols:
+    url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}"
 
-    with open(file_path, "w") as f:
-        json.dump(data, f, indent=4)
+    response = requests.get(url)
+    data = response.json()
 
-    print("Extraction complete ✅")
-else:
-    print("Invalid API response ❌")
+    if "Time Series (Daily)" in data:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_path = f"data/raw/{symbol}_{timestamp}.json"
+
+        with open(file_path, "w") as f:
+            json.dump(data, f, indent=4)
+
+        print(f"{symbol}: Extraction complete")
+    else:
+        print(f"{symbol}: Invalid API response")
+        print(data)
+
+    time.sleep(15)

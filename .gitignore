@@ -1,0 +1,25 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+airflow_venv/
+
+# Environment variables (VERY IMPORTANT)
+.env
+
+# Data files (raw data should not be uploaded)
+data/raw/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Airflow logs
+logs/
+*.log
+
+# Jupyter notebooks checkpoints (if any)
+.ipynb_checkpoints/
