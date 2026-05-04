@@ -77,7 +77,7 @@ if all_dataframes:
                 how="left",
                 indicator=True
             )
-
+    # Incremental check to only add new records that are not in the existing file. This prevents duplicates and allows for efficient updates as new raw data is added.
             new_data = new_data[new_data["_merge"] == "left_only"].drop(columns=["_merge"])
             updated_df = pd.concat([existing_df, new_data], ignore_index=True)
     else:
